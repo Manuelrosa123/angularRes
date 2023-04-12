@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/restaurants']">FoodScore</a>
+
+    <ul class="navbar-nav me-auto mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" [routerLink]="['/restaurants']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/restaurants', 'add']" routerLinkActive="active" >New restaurant</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/auth', 'register']" routerLinkActive="active" >Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/auth', 'login']" routerLinkActive="active" >Login</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto mr-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['users/','me']" routerLinkActive="active" >My Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['null']" routerLinkActive="active" (click)="logOut()" >Logout</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

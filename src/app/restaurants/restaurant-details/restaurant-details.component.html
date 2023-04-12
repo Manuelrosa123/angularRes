@@ -1,0 +1,32 @@
+<div class="mt-4">
+  <fs-restaurant-card
+    [restaurant]="restaurant"
+    *ngIf="restaurant"
+    (deleted)="goBack()"
+  ></fs-restaurant-card>
+</div>
+
+<div class="card mt-4" id="creatorCard">
+  <div class="card-header bg-danger text-white">Restaurant's owner</div>
+  <div class="card-body d-flex flex-row">
+    <div>
+      <img id="creatorImg" class="rounded-circle me-3" style="width: 40px;" src={{restaurant.creator?.avatar}} alt="">
+    </div>
+    <div>
+      <div><strong id="creatorName">{{restaurant.creator?.name}}</strong></div>
+      <div><small id="creatorEmail">{{restaurant.creator?.email}}</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h1>{{this.restaurant.address}}</h1>
+ <arcgis-map [coords]="[this.restaurant.lng, this.restaurant.lat]">
+   <arcgis-marker [coords]="[this.restaurant.lng, this.restaurant.lat]" color="red"></arcgis-marker>
+ </arcgis-map>
+</div>
+
+<div class="mt-4 mb-4">
+  <button class="btn btn-success" (click)="goBack()">Go back</button>&nbsp;
+  <button type="button" class="btn btn-primary" *ngIf="restaurant.mine" [routerLink]="['/restaurants', restaurant.id, 'edit']">Edit</button>
+</div>

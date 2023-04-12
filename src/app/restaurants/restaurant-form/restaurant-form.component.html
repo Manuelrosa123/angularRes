@@ -1,0 +1,150 @@
+<form class="mt-4" (ngSubmit)="addRestaurant()" #restaurantForm="ngForm">
+  <div class="mb-3">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      id="name"
+      [(ngModel)]="newRestaurant.name"
+      placeholder="Enter name"
+      required
+      pattern="^[a-zA-Z][a-zA-Z ]*$"
+      #nameModel="ngModel"
+      [ngClass]="validClasses(nameModel, 'is-valid', 'is-invalid')"
+    />
+    <div class="invalid-feedback" *ngIf="nameModel.errors?.['required']">
+      Name is required and can only contain letters and spaces.
+    </div>
+    <div class="invalid-feedback" *ngIf="nameModel.errors?.['pattern']">
+      Name can only contain letters and spaces (and start with a letter).
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="description">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      name="description"
+      rows="3"
+      [(ngModel)]="newRestaurant.description"
+      placeholder="Description"
+      required
+      #descModel="ngModel"
+      [ngClass]="validClasses(descModel, 'is-valid', 'is-invalid')"
+    ></textarea>
+    <div class="invalid-feedback">Description is required.</div>
+  </div>
+  <div class="mb-3">
+    <label for="cuisine">Cuisine</label>
+    <input
+      type="text"
+      class="form-control"
+      name="cuisine"
+      id="cuisine"
+      [(ngModel)]="newRestaurant.cuisine"
+      placeholder="Cuisine"
+      required
+      #cuisineModel="ngModel"
+      [ngClass]="validClasses(cuisineModel, 'is-valid', 'is-invalid')"
+    />
+    <div class="invalid-feedback">Cuisine is required.</div>
+  </div>
+  <p>Opening days</p>
+  <div class="mb-3"  ngModelGroup="daysGroup" #daysModel="ngModelGroup" fsOneChecked>
+    <div
+      class="form-check form-check-inline"
+      *ngFor="let day of days; let i = index"
+    >
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        id="checkDay{{i}}"
+        name="days[{{i}}]"
+        [(ngModel)]="daysOpen[i]"
+      />
+      <label class="custom-control-label ms-2" for="checkDay{{ i }}">{{
+        day
+      }}</label>
+    </div>
+    <div *ngIf="daysModel.invalid" class="text-danger">
+      You must select at least one day
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="phone">Phone number</label>
+    <input
+      type="text"
+      class="form-control"
+      id="phone"
+      name="phone"
+      [(ngModel)]="newRestaurant.phone"
+      placeholder="Phone number"
+      required
+      pattern="([+0]?[0-9]{2} ?)?[0-9]{9}"
+      #phoneModel="ngModel"
+      [ngClass]="validClasses(phoneModel, 'is-valid', 'is-invalid')"
+    />
+    <div class="invalid-feedback" *ngIf="phoneModel.errors?.['required']">
+      Phone is required
+    </div>
+    <div class="invalid-feedback" *ngIf="phoneModel.errors?.['pattern']">
+      Phone must have 9 numbers with optional prefix
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="image">Image</label>
+    <input
+      type="file"
+      class="form-control"
+      id="image"
+      name="image"
+      #fileImage
+      (change)="changeImage(fileImage)"
+      ngModel
+      required
+      #imageModel="ngModel"
+      [ngClass]="validClasses(imageModel, 'is-valid', 'is-invalid')"
+    />
+    <div class="invalid-feedback">An image is required.</div>
+  </div>
+  <img
+    [src]="newRestaurant.image"
+    [ngClass]="{ 'd-none': !newRestaurant.image }"
+    class="img-thumbnail mb-3"
+  />
+
+  <div class="mb-3">
+    <label for="address">Address</label>
+    <input
+      type="search"
+      class="form-control"
+      id="address"
+      name="address"
+      readonly
+      #addressModel="ngModel"
+      [(ngModel)]="newRestaurant.address"
+      ngModel
+    />
+    <div class="invalid-feedback" *ngIf="addressModel.errors?.['required']">
+      Address is required
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <arcgis-map [coords]="[longitude, latitude]">
+      <arcgis-search
+        position="top-right"
+        (result)="searchResult($event)"
+      ></arcgis-search>
+      <arcgis-marker
+        [coords]="[longitude, latitude]"
+        color="red"
+      ></arcgis-marker>
+    </arcgis-map>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary" [disabled]="restaurantForm.invalid">Create</button>
+  </div>
+</form>

@@ -1,0 +1,8 @@
+p.card-text {
+  white-space: pre-wrap;
+}
+
+arcgis-map{
+  height: 300px;
+  width: 1300px;
+}
